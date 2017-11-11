@@ -1,0 +1,387 @@
+
+
+1.什么是restful？rest的请求方法有哪些，有什么区别？
+
+	是一种软件架构风格。请求方法有GET、DELETE、POST、PUT，也可能包括HEADER、OPTIONS，
+
+	PUT与POST相似，都是用以像服务器发送数据，而它们的区别是，PUT通常指定了资源的位置，POST的数据则由服务器决定其位置
+
+	DELETE为删除资源，比较少见
+
+	GET用以向服务器请求资源，POST用以向服务器提交数据，而GET通常有长度限制，并且获取的数据都呈现在URL中，而POST则没有这种限制
+
+
+2.为什么要用Rest风格，如果不用Rest的话，接口应该怎么定义，在使用Rest风格之前，大家都是用什么方式写接口的？
+
+	Restful风格具有如下优点：
+
+
+	URL具有很强可读性的，具有自描述性；
+
+	资源描述与视图的松耦合；
+
+	可提供OpenAPI，便于第三方系统集成，提高互操作性；
+
+	如果提供无状态的服务接口，可提高应用的水平扩展性；
+
+3.了解maven的module。
+	实际应用中，一个项目往往是由多个 project 构成的，在进行构建（build）时，针对多个 project 分别执行多次构建命令，这样极容易产生遗漏也会大大降低效率。 Maven 的聚合功能可以通过一个父模块将所有的要构建模块整合起来，将父模块的打包类型声明为 POM，通过"modules"将各模块集中到父 POM 中。
+
+	父模块不需要有源代码和资源文件，即没有 src/main/java 和 src/test/java 目录。Maven首先解析父模块的 POM 文件，分析要构建的模块，并通过各模块的依赖关系计算一个反应堆构建顺序（Reactor Build Order ）， 根据这个顺序依次构建模块。将各子模块聚合到父模块中后，就可以对父模块进行一次构建命令来完成全部模块的构建。反应堆（Reactor）是所有模块组成的一个构建结果。
+
+
+4.什么是http协议？Get和post请求有什么区别？http请求content-Type有几种，有什么区别？http适合什么场景？http状态码有哪些？
+
+	http协议是一个属于应用层的面向对象协议,http是超文本传输协议的缩写,它是以传送www方式的传输超文本到本地浏览器的传送协议
+
+	get和post是http协议的两种不同的实现方式,get是指server从url取得所需参数,get可以看到参数,post是主动向server发送参数,所以一般看不到这些参数.
+
+	http请求content-Type：
+
+		application/x-www-form-urlencoded:数据被编码为名称/值对,这是标准的编码格式
+
+		multipart/form-data:数据被编码为一条消息,页上的每个控件对应消息中的一个部分
+
+		text/plain:数据以纯文本形式进行编码,其中不含任何空间或格式字符,在postman软件里标的是RAW
+
+	适合场景：公司OA服务,互联网服务
+
+	状态码：
+
+		1字头代表消息,代表请求已被接收,需要继续处理,这类响应只是临时响应
+
+		2字头代表成功,这一类型的状态码代表请求已成功被服务器接收,理解
+
+		3字头代表重定向.这类状态码代表需要客户端采取进一步的操作才能完成请求,通常,这些状态码用来重定向,后续的地址(重定向目标)在本次响应的location域中指明
+
+		4字头代表请求错误,这类状态码代表客户端看起来可能发生了错误,妨碍了服务器的处理
+
+		5字头代表服务器在处理请求的过程有错误或者异常状态发生
+
+
+
+
+
+5.什么是tcp/ip协议？TCP的三次握手指的是什么，为什么一定要三次握手，而不是四次或者是两次？
+
+	是一个协议族的统称。里面包括了IP协议，IMCP协议，TCP协议等等。同时是Internet最基本的协议、Internet国际互联网络的基础，由网络层的IP协议和传输层的TCP协议组成。
+	
+	第一次握手 客户端向服务端发送连接请求报文段。该报文段的头部中SYN=1，ACK=0，seq=x。请求发送后，客户端便进入SYN-SENT状态。PS1：SYN=1，ACK=0表示该报文段为连接请求报文。PS2：x为本次TCP通信的字节流的初始序号。 TCP规定：SYN=1的报文段不能有数据部分，但要消耗掉一个序号。
+	
+	第二次握手 服务端收到连接请求报文段后，如果同意连接，则会发送一个应答：SYN=1，ACK=1，seq=y，ack=x+1。 该应答发送完成后便进入SYN-RCVD状态。PS1：SYN=1，ACK=1表示该报文段为连接同意的应答报文。PS2：seq=y表示服务端作为发送者时，发送字节流的初始序号。PS3：ack=x+1表示服务端希望下一个数据报发送序号从x+1开始的字节。
+	
+	第三次握手 
+	当客户端收到连接同意的应答后，还要向服务端发送一个确认报文段，表示：服务端发来的连接同意应答已经成功收到。 该报文段的头部为：ACK=1，seq=x+1，ack=y+1。 客户端发完这个报文段后便进入ESTABLISHED状态，服务端收到这个应答后也进入ESTABLISHED状态，此时连接的建立完成！
+
+	
+	“三次握手”的目的是“为了防止已失效的连接请求报文段突然又传送到了服务端，因而产生错误”
+
+
+
+6.什么是WEBService，实现WEBService有哪些框架，为什么WEBService经常被认为太重了，只有银行和大型国企才会使用的更多有一些？
+
+	Webservice是一个平台独立的，低耦合的，自包含的、基于可编程的web的应用程序，可使用开放的XML（标准通用标记语言下的一个子集）标准来描述、发布、发现、协调和配置这些应用程序，用于开发分布式的互操作的应用程序。
+
+	框架：
+	Axis，axis2，Xfire，CXF以及JWS
+
+	说觉得重的，是基于SOAP协议方式的webService
+	其实SOAP最早是针对RPC的一种解决方案，简单对象访问协议，很轻量，同时作为应用协议可以基于多种传输协议来传递消息（Http,SMTP等）。但是随着SOAP作为WebService的广泛应用，不断地增加附加的内容，使得现在开发人员觉得SOAP很重，使用门槛很高。在SOAP后续的发展过程中，WS-*一系列协议的制定，增加了SOAP的成熟度，也给SOAP增加了负担
+
+
+
+
+7.Spring MVC和Struts的区别是什么，为什么更倾向于使用Spring MVC？
+
+	1、Struts2是类级别的拦截， 一个类对应一个request上下文，SpringMVC是方法级别的拦截，一个方法对应一个request上下文，而方法同时又跟一个url对应,所以说从架构本身上SpringMVC就容易实现restful url,而struts2的架构实现起来要费劲，因为Struts2中Action的一个方法可以对应一个url，而其类属性却被所有方法共享，这也就无法用注解或其他方式标识其所属方法了。
+	2、由上边原因，SpringMVC的方法之间基本上独立的，独享request response数据，请求数据通过参数获取，处理结果通过ModelMap交回给框架，方法之间不共享变量，而Struts2搞的就比较乱，虽然方法之间也是独立的，但其所有Action变量是共享的，这不会影响程序运行，却给我们编码 读程序时带来麻烦，每次来了请求就创建一个Action，一个Action对象对应一个request上下文。
+	3、由于Struts2需要针对每个request进行封装，把request，session等servlet生命周期的变量封装成一个一个Map，供给每个Action使用，并保证线程安全，所以在原则上，是比较耗费内存的。
+	4、 拦截器实现机制上，Struts2有以自己的interceptor机制，SpringMVC用的是独立的AOP方式，这样导致Struts2的配置文件量还是比SpringMVC大。
+	5、SpringMVC的入口是servlet，而Struts2是filter（这里要指出，filter和servlet是不同的。以前认为filter是servlet的一种特殊），这就导致了二者的机制不同，这里就牵涉到servlet和filter的区别了。
+	6、SpringMVC集成了Ajax，使用非常方便，只需一个注解@ResponseBody就可以实现，然后直接返回响应文本即可，而Struts2拦截器集成了Ajax，在Action中处理时一般必须安装插件或者自己写代码集成进去，使用起来也相对不方便。
+	7、SpringMVC验证支持JSR303，处理起来相对更加灵活方便，而Struts2验证比较繁琐，感觉太烦乱。
+	8、Spring MVC和Spring是无缝的。从这个项目的管理和安全上也比Struts2高（当然Struts2也可以通过不同的目录结构和相关配置做到SpringMVC一样的效果，但是需要xml配置的地方不少）。
+	9、 设计思想上，Struts2更加符合OOP的编程思想， SpringMVC就比较谨慎，在servlet上扩展。
+	10、SpringMVC开发效率和性能高于Struts2。
+	11、SpringMVC可以认为已经100%零配置。
+
+8.web.xml里的主要配置都包括什么，都代表什么含义，比如怎么加载Spring 配置的？
+
+	①定义头和根元素
+
+	部署web.xml文件就像所有XML文件一样,必须以一个XML头开始,这个头声明可以使用XML版本并给出文件的字符编码.需要注意的是,所有部署描述符文件的根元素为web-app
+
+	xml元素不像HTML,他们是大小写敏感的,所以web-app必须用小写
+
+	②部署描述符文件内的元素次序
+
+	xml元素不仅是大小写敏感的,而且还对出现在其他元素中的次序敏感.例如,xml头必须是文件的第一项.DOCTYPE声明是第二项,web-app元素是第三项.服务器不一定强制要求这种次序,但他们允许完全拒绝执行含有次序不正确的元素的web应用
+
+	这表示使用非标准元素次序的web.xml文件是不可移植的.此外,xml元素出现地次序不是随意的.特别是,需要把所有servlet元素放在所有servlet-mapping元素之前
+
+	③定义欢迎页面
+
+	访问一个网站时,默认看到的第一个页面就叫欢迎页,一般情况下是由首页来充当欢迎页的.一般情况下,我们会在web.xml中指定欢迎页,但web.xml并不是一个web的必要文件,没有web.xml网站仍然是可以正常工作的
+
+	④命名与定制URL
+
+	我们可以为servlet和jsp文件命名并定制URL,其中定制URL是依赖命名的,命名必须在定制url前
+
+
+	web.xml里还可以设置更多元素功能.如指定错误处理页面,设置过滤器,监听器,会话过期时间等
+	
+	比如怎么加载Spring 配置的？
+
+	通过上下文监听器加载配置
+
+9.Annotation和XML两种配置的差别，为什么更喜欢使用Annotaion来配置Spring MVC？
+
+	注解的优势：
+
+	a.简化了XML配置；其实大部分注解一定确定后很少会改变，所以在一些中小项目中使用注解可以提升开发效率；
+
+	b.编辑期可以验证正确性，查错变得容易
+
+	注解的劣势：
+
+	a.注解都分散在类中，不好管理和维护。
+
+	b.与源代码绑定，所以在修改配置的时候就需要涉及到修改源代码，并且在修改过后还需要重新打包，发布，重新启动服务。
+
+	XML的优势：
+
+	a.降低耦合，与源代码分开，修改配置不需要涉及到源代码，并且在修改配置后只需要重启服务即可。
+
+	b.配置文件集中，查看比较方便。在处理大的业务量的时候，用XML配置应该更加好一些。因为XML更加清晰的表明了各个对象之间的关系，各个业务类之间的调用。
+
+	c.相对于注解功能更加齐全。
+
+	XML的劣势：
+
+	XML方式在项目比较大的时候会看起来冗长。代码量比较大，配置文件读取和解析需要耗时。
+	
+	
+	为什么更喜欢使用Annotaion来配置Spring MVC？
+		
+	1. SpringMVC框架给出了专用的几个注解，使其层次更加分明
+
+	2. MVC层次较为简单，而url映射也十分简单，哪个网址出错可以立即找到其映射类。
+
+
+
+10.使用Annotaion的时候需要有哪些配置，他的加载过程是怎么样的？
+
+	在spring中，每使用一个注解就要声明一个bean
+
+	比如 ：使用@Autowired注解，必须事先在Spring容器中声明AutowiredAnnotationBeanPostProcessor的Bean：
+
+	样的声明未免太不优雅，所以Spring为我们提供了一种极为方便注册这些BeanPostProcessor的方式，即使用context:annotation- config标签，隐式地向 Spring容器注册各种bean
+
+	另外，在我们使用注解时一般都会配置扫描包路径选项：context:component-scan base-package="pack.pack"/
+
+	该配置项其实也包含了自动注入上述processor的功能，因此当使用context:component-scan后，即可将context:annotation-config标签省去。
+	
+	简略版：1.context:annotation- config标签 2.context:component-scan （而其实只用context:component-scan就可以了）
+	
+	加载过程：
+	
+	@autowired注解是如何加载的？自动注入是怎样实现的？？
+	@autowired是通过动态代理和反射，在类加载过程中动态生成代理类，当初始化全局变量时，代理类跳到invoke方法，然后通过反射获取field字段对象，在method.invoke()的调用前即可实现注入。aop和拦截器以及常用注解等功能的实现都是基于动态代理实现的。
+
+
+
+
+11.什么是Filter，什么是Interceptor,他们的区别是什么，和AOP又是什么关系？
+
+	Filter可以认为是Servlet的一种“加强版”，它主要用于对用户请求进行预处理，也可以对HttpServletResponse进行后处理，是个典型的处理链。使用Filter完整的流程是：Filter对用户请求进行预处理，接着将请求交给Servlet进行处理并生成响应，最后Filter再对服务器响应进行后处理。
+
+	Interceptor是动态拦截Action调用的对象。它提供了一种机制可以使开发者可以定义在一个Action执行的前后执行的代码，也可以在一个Action执行前阻止其执行。同时也提供了一种可以提取Action中可重用的部分的方式。
+	
+	Filter和Interceptor的区别
+
+	
+	1. Filter是基于函数回调的，而Interceptor则是基于Java反射的。
+
+	2. Filter依赖于Servlet容器，而Interceptor不依赖于Servlet容器。
+
+	3. Filter对几乎所有的请求起作用，而Interceptor只能对action请求起作用。
+
+	4. 在action的生命周期里，Interceptor可以被多次调用，而Filter只能在容器初始化时调用一次。所以Fileter配置在web.xml中,而Interceptor配置在springmvc-servlet.xml中.
+
+	
+	和AOP的关系：
+	Interceptor和AOP可以看作是类似的,因为其内部实现原理都是利用JAVA的反射机制(AOP是使用动态代理,动态代理的实现就是java反射机制).但是Filter和Interceptor有本质上的区别.其实现是通过回调函数.两者的控制粒度也不同,AOP和Interceptor的控制粒度都是方法级别,但是Filter的控制粒度就是servlet容器,它只能在servlet容器执行前后进行处理.
+
+
+
+12.生成Json有几种方式，他们之间的好处和坏处分别是什么，为什么推荐使用JsonTaglib来处理Json？
+
+	返回json格式的数据有三种方法：使用第三方jar包，例如google的gson；使用@ResponseBody注解；和使用taglib的方法来在jsp中返回。
+
+	为什么推荐使用JsonTaglib来处理Json？
+
+	1.使用json-taglib,在控制器中的代码更加简洁,易读
+
+	2.使用json-taglib更加灵活,如果以后需要更改json数据格式,只需要更改jsp页面即可,不需要改动控制器代码
+
+
+
+13.一份规范的接口文档应该包括什么内容，衡量接口（API）设计好和坏的准则是什么？
+
+	接口规范是什么？
+
+	首先接口分为四部分：方法、uri、请求参数、返回参数
+
+	1、方法:新增(post) 修改(put) 删除(delete) 获取(get)
+
+	2、uri：以/a开头，如果需要登录才能调用的接口(如新增、修改；前台的用户个人信息，资金信息等)后面需要加/u，即：/a/u；中间一般放表名或者能表达这个接口的单词；
+
+	get方法，如果是后台通过搜索查询列表，那么以/search结尾，如果是前台的查询列表，以/list结尾
+
+	3、请求参数和返回参数，都分为5列：字段、说明、类型、备注、是否必填
+
+	字段是类的属性；
+
+	说明是中文释义；
+
+	类型是属性类型，只有String、Number、Object、Array四种类型；
+
+	备注是一些解释，或者可以写一下例子，比如负责json结构的情况，最好写上例子，好让前端能更好理解；
+
+	是否必填是字段的是否必填。
+
+	4、返回参数结构有几种情况：
+
+	1、如果只返回接口调用成功还是失败（如新增、删除、修改等），则只有一个结构体：code和message两个参数；
+
+	2、如果要返回某些参数，则有两个结构体：1是code/mesage/data，2是data里写返回的参数,data是object类型；
+
+	3、如果要返回列表，那么有三个结构体，1是code/mesage/data,data是object，里面放置page/size/total/list 4个参数，其中list是Arrary类型，list里放object，object里是具体的参数。
+	
+	
+	衡量接口（API）设计好和坏的准则是什么？
+	
+	单词拼写要准确,接口一旦发布就不能改了，要保持兼容性，拼写错误也不能改了，所以要仔细检查拼写，否则会被同行嘲笑很多年。
+
+	方法名称是否可以自描述，即看到方法的名字就能知道方法的作用、看到参数名就知道需要传递什么样的数据（比如getUserById(String userId)）
+
+	API一定要便于使用者理解，这样才是广泛传播的基础。如果有些API需要用户掌握特定的概念、定义，那么就要保持这个API的一致性，不能轻易的改变API，否则会给使用者带来很大的麻烦。
+
+	接口参数验证必不可少，同时异常等返回信息得全面，让调用者明确异常原由；
+
+
+
+14.Http的Header里面包含哪些字段，每个字段都有哪些含义？
+
+	Header中”q”值的含义：优先级。
+
+	没有q值的优先级默认为1。
+
+	q值一样的，范围小的优先级高。
+
+	格式：分号。
+
+	Accept：
+
+	客户端可以接受的Body格式
+
+	application/json ——JSON格式
+
+	text/plain——纯文本格式
+
+	text/html——HTML文本
+
+	*/*——所有格式
+
+	逗号隔开，有顺序。
+
+	分号前是主类型，分号后是子类型。
+
+	如果没有Accept请求头，相当于*/*
+
+	Accept-Encoding :
+
+	Content-Encoding：
+
+	Accept-Encoding指定浏览器可以支持的web服务器返回内容压缩编码类型。
+
+	服务器会通过Accept-Encoding得到客户端支持的压缩方式，如果服务器和浏览器同时支持某种压缩方式，服务器就会添加一种Content-Encoding，来进行压缩。
+
+	如果服务器不支持客户端Accept-Encoding中的任何一个压缩方式，则会返回406错误。
+
+	如果请求头中没有Accept-Encoding这个头，则会默认客户端支持任何方式。
+
+	Accept-Language：
+
+	浏览器可接受的自然语言的类型。
+
+	如果没有Accept-Language这个请求头，服务器默认客户端支持所有自然语言。
+
+	例如：zh-CN,zh;q=0.8,en;q=0.6,zh-TW;q=0.4
+
+	User-Agent:
+
+	主要用于统计和追踪信息，用处不大。可以包含很多信息。
+
+	User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.101 Safari/537.36
+
+	Content-Type:
+
+	表示请求或响应体的格式。
+
+	Connection:
+
+	设置HTTP连接的持久化，通常都是Keep-Alive。
+
+	Connection: close 表示在响应结束后，结束连接。
+
+	WWW-Authenticate:
+
+	WWW-Authenticate响应头必须包含在401授权错误中，表示通过什么方式进行身份验证。
+
+	例如：WWW-Authenticate: BASIC realm="application"
+
+
+
+
+15.Content-type中的数据类型，在Spring MVC中都怎么接收数据？
+
+	三种类型：
+	1）application/x-www-form-urlencoded：浏览器的原生 form 表单，如果不设置 enctype 属性，那么最终就会以 application/x-www-form-urlencoded 方式提交数据。提交的数据按照 key1=val1&key2=val2 的方式进行编码，key 和 val 都进行了 URL 转码，大部分服务端语言都对这种方式有很好的支持。
+
+	2）multipart/form-data：使用表单上传文件时，必须让 form 的 enctyped 等于这个值。
+
+	3）application/json：目前最流行的请求头格式，告诉服务端消息主体是序列化后的 JSON 字符串。可以方便的提交复杂的结构化数据，特别适合 RESTful 的接口。
+	
+	Spring接收数据有点难，放弃吧~
+
+
+16.Put请求在Linux下的Tomcat或者是Resin中会收不到数据，怎么解决这个问题，原因是什么？为什么本地使用Jetty的时候往往是正常的？
+
+
+17.War包是什么，为什么WEB服务通常打出来的都是War包？除了War包，还有几种打包格式，他们之间的区别呢？
+	WAR是Sun提出的一种Web应用程序格式，是许多文件的一个压缩包。这个包中的文件按一定目录结构来组织：通常其根目录下包含有Html和Jsp文件或者包含这两种文件的目录，另外还会有一个WEB-INF目录。通常在WEB-INF目录下有一个web.xml文件和一个classes目录，web.xml是这个应用的配置文件，而classes目录下则包含编译好的Servlet类和Jsp或Servlet所依赖的其它类。
+	
+	
+	Javaweb工程，都是打成war包，进行发布，打成war包的好处是不会缺少目录，并且只管理好一个发布文件就好，并且tomcat服务器能够自动识别，将war包放在tomcat容器的webapps下，启动服务，即可运行该项目，该war包会自动解压出一个同名的文件夹。
+
+	三种格式：war包、jar包、ear包
+	区别
+	http://upload-images.jianshu.io/upload_images/8512972-2b222a26bffba817.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240
+
+18.maven常用的打包插件有哪些？有什么区别？如何使用 ？
+
+	1）使用jar或maven直接打包
+	jar使用JDK或maven直接打包
+
+	2）使用shade插件
+	shade在pom.xml中设置好后直接使用maven打包，会出现两个包，一个是shade插件打的，一个是maven打的包
+
+	3）使用assembly插件
+	在pom.xml中设置好之后，在maven面板中的插件部分找到assembly字样，然后打包
+	
+	区别：使用jar和dependency插件打的jar包不能直接运行，而使用shade或assembly打的jar包可以直接运行
+	
+	
+	
+
